@@ -9,5 +9,10 @@ spring:
                 database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
                 generate-ddl: true
                 hibernate:
-                        ddl-auto: create
+                        ddl-auto: update
                 show_sql: true
+logging:
+        level:
+# log.error로그 이상만 출력 : Trace < debug < info < error
+# 실무에서는 일반적으로 info로 설정, info는 굳이 설정 안 해도 default가 info
+                root: info

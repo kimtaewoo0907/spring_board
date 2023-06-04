@@ -1,14 +1,15 @@
 package com.example.spring_board.author.controller;
 
 import com.example.spring_board.author.domain.Author;
+import com.example.spring_board.author.etc.AuthorRequestDto;
 import com.example.spring_board.author.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,22 +24,46 @@ public class AuthorController {
         return "home";
     }
 
+    @GetMapping("author/login")
+    public String authorLogin() {
+        return "author/login";
+    }
+
     @GetMapping("authors/new")
     public String authorCreateForm() {
         return "author/author-register";
     }
 
     @PostMapping("authors/new")
-    public String authorCreate(@RequestParam(value = "name") String name,
-                               @RequestParam(value = "email") String email,
-                               @RequestParam(value = "password") String password,
-                               @RequestParam(value = "role") String role) throws SQLException {
-        Author author1 = new Author();
-        author1.setName(name);
-        author1.setEmail(email);
-        author1.setPassword(password);
-        author1.setRole(role);
-        author1.setCreateDate(LocalDateTime.now());
+    public String authorCreate(AuthorRequestDto authorRequestDto) throws SQLException {
+
+        // 실무에서는 setter 최대한 배제
+        // 이유는 최초 객체 생성시점 뿐만 아니라, 여러군데에서 setter를 통해 객체 값을 변경가능하게 되어,
+        // 데이터의 정확성을 보장하기 어렵고, 유지보수가 어렵다
+
+        // 방법1. setter 방식 : 최초시점 이외의 다른 클래스에서 객체 값을 변경함으로써, 유지보수의 어려움 발생
+//        author1.setName(authorRequestDto.getName());
+//        author1.setEmail(authorRequestDto.getEmail());
+//        author1.setPassword(authorRequestDto.getPassword());
+//        author1.setRole(authorRequestDto.getRole());
+//        author1.setCreateDate(authorRequestDto.now());
+
+        // 방법2. 생성자 방식(setter 배제)
+        // 문제점은 반드시 매개변수의 순서를 맞춰줘야 한다는 점이고, 매개변수가 많아지게 되면 개발의 어려움 발생
+//        Author author1 = new Author(
+//                authorRequestDto.getName(),
+//                authorRequestDto.getEmail(),
+//                authorRequestDto.getPassword(),
+//                authorRequestDto.getRole()
+//        );
+
+        // 방법3. builder 패턴 : 매개변수 순서와 상관없이 객체 생성가능
+        Author author1 = Author.builder()
+                        .password(authorRequestDto.getPassword())
+                        .name(authorRequestDto.getName())
+                        .email(authorRequestDto.getEmail())
+                        .role(authorRequestDto.getRole())
+                        .build();
         authorService.create(author1);
         return "redirect:/";
     }
@@ -60,19 +85,8 @@ public class AuthorController {
     }
 
     @PostMapping("author/update")
-    public String authorupdate(@RequestParam(value = "id") String id,
-                               @RequestParam(value = "name") String name,
-                               @RequestParam(value = "email") String email,
-                               @RequestParam(value = "password") String password,
-                               @RequestParam(value = "role") String role) throws Exception {
-        Author author = new Author();
-        author.setId(Long.parseLong(id));
-        author.setName(name);
-        author.setEmail(email);
-        author.setPassword(password);
-        author.setRole(role);
-        author.setCreateDate(LocalDateTime.now());
-        authorService.update(author);
+    public String authorupdate(AuthorRequestDto authorRequestDto) throws Exception {
+        authorService.update(authorRequestDto);
         return "redirect:/";
     }
 
@@ -85,4 +99,5 @@ public class AuthorController {
         authorService.delete(Long.parseLong(id));
         return "redirect:/authors";
     }
+
 }

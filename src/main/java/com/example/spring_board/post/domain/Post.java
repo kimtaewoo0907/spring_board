@@ -1,24 +1,28 @@
 package com.example.spring_board.post.domain;
 
 import com.example.spring_board.author.domain.Author;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(length = 50)
     private String title;
 
+    @Setter
     @Column
     private String contents;
 
@@ -32,7 +36,15 @@ public class Post {
     @JoinColumn(nullable = false, name = "author_id")
     private Author author;
 
+    @Setter
     @Column
     private LocalDateTime createDate;
 
+    @Builder
+    public Post(String title, String contents, String email, Author author) {
+        this.title = title;
+        this.contents = contents;
+        this.author = author;
+        this.createDate = LocalDateTime.now();
+    }
 }

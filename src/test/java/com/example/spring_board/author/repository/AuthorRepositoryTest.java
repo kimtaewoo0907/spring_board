@@ -1,6 +1,7 @@
 package com.example.spring_board.author.repository;
 
 import com.example.spring_board.author.domain.Author;
+import com.example.spring_board.author.etc.AuthorRequestDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,12 @@ public class AuthorRepositoryTest {
 
     // 테스트코드의 장점은 부족한 기능을 사전에 알아차릴 수가 있다
     @Test
-    public void authorSave() {
-        Author authorInput = new Author();
-        authorInput.setName("hong");
-        authorInput.setEmail("hong@naver.com");
-        authorInput.setPassword("1234");
-
+    public void authorSave(AuthorRequestDto authorRequestDto) {
+        Author authorInput = Author.builder()
+                .password("1234")
+                .name("hong")
+                .email("hong@naver.com")
+                .build();
         authorRepository.save(authorInput);
 
         // 저장된 데이터를 다시 조회해서, 입력한 테스트 데이터와  동일한지 검증

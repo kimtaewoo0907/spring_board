@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>회원 상세 정보</title>
+    <title>글 상세 정보</title>
     <style>
         .pull-right {
             float: right;
@@ -31,7 +31,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="localhost:8080/authors">회원관리</a>
+                <a class="nav-link" href="/authors">회원관리</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/posts">글목록</a>
@@ -42,59 +42,51 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>회원 상세 정보</h1>
+        <h1>글 정보</h1>
     </div>
 
     <table class="table">
         <tr>
             <td>Id:</td>
-            <td th:text="${author.id}"></td>
+            <td th:text="${post.id}"></td>
         </tr>
         <tr>
-            <td>Name:</td>
-            <td th:text="${author.name}"></td>
+            <td>제목:</td>
+            <td th:text="${post.title}"></td>
         </tr>
         <tr>
-            <td>Email:</td>
-            <td th:text="${author.email}"></td>
+            <td>내용:</td>
+            <td th:text="${post.contents}"></td>
         </tr>
         <tr>
-            <td>Role:</td>
-            <td th:text="${author.role}"></td>
+            <td>작성자명:</td>
+            <td th:text="${post.author.name}"></td>
         </tr>
         <tr>
             <td>Create Date:</td>
-            <td th:text="${author.createDate}"></td>
+            <td th:text="${post.createDate}"></td>
         </tr>
     </table>
 
     <div class="pull-right">
-        <button id="edit-button" class="btn btn-primary">회원 정보 수정</button>
+        <button id="edit-button" class="btn btn-primary">게시글 수정</button>
     </div>
     <div class="pull-right">
-        <a th:href="@{'author/delete?id=' + ${author.id}}" class="btn btn-primary">회원 정보 삭제</a>
+        <a th:href="@{'post/delete?id=' + ${post.id}}" class="btn btn-primary">게시글 삭제</a>
     </div>
     <div id="edit-form" class="hidden">
-        <form action="/author/update" method="post">
+        <form action="/post/update" method="post">
             <div class="form-group">
                 <label for="id">Id:</label>
-                <input type="text" class="form-control" id="id" name = "id" th:value="${author.id}" readonly>
+                <input type="text" class="form-control" id="id" name = "id" th:value="${post.id}" readonly>
             </div>
             <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name = "name" th:value="${author.name}">
+                <label for="title">제목:</label>
+                <input type="text" class="form-control" id="title" name = "title" th:value="${post.title}">
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email" name = "email" th:value="${author.email}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="password">password:</label>
-                <input type="password" class="form-control" id="password" name = "password"  th:value="${author.password}">
-            </div>
-            <div class="form-group">
-                <label for="role">Role:</label>
-                <input type="text" class="form-control" id="role" name = "role"  th:value="${author.role}">
+                <label for="contents">내용:</label>
+                <input type="text" class="form-control" id="contents" name = "contents" th:value="${post.contents}">
             </div>
             <button type="submit" class="btn btn-primary">수정 완료</button>
         </form>
