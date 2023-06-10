@@ -37,9 +37,17 @@ public class Post {
     private Author author;
 
     @Setter
+    @Column(length = 1)
+    private String apointment;
+
+    @Column
+    private LocalDateTime apointment_time;
+
+    @Setter
     @Column
     private LocalDateTime createDate;
 
+    // 생성자방식과 빌더방식
     @Builder
     public Post(String title, String contents, String email, Author author) {
         this.title = title;

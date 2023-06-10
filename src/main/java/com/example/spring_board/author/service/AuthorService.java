@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,7 +24,12 @@ public class AuthorService implements UserDetailsService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    // 의존성 주입(dependency injection - DI)
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public void create(Author author) throws SQLException {
+        author.setPassword(passwordEncoder.encode(author.getPassword()));
         authorRepository.save(author);
     }
 

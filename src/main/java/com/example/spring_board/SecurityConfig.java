@@ -5,12 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 //EnableWebSecurity 어노테이션은 spring security를 custumizing 할 수 있는 기능 활성화
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
     // 스프링에서 빈을 만드는 방법 2가지(싱글톤)
     // 방법 1. Component 방식
     // 개발자가 직접 컨트롤이 가능한 내부 클래스에서 사용
@@ -24,7 +31,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 // login authenticated에서 제외대한 대상 url 지정
-                .antMatchers("/author/login", "/", "authors/new")
+                .antMatchers("/author/login", "/", "/authors/new")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
