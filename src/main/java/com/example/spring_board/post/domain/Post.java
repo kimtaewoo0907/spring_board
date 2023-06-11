@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -49,10 +51,12 @@ public class Post {
 
     // 생성자방식과 빌더방식
     @Builder
-    public Post(String title, String contents, String email, Author author) {
+    public Post(String title, String contents, String email, Author author, String apointment, LocalDateTime apointment_time) {
         this.title = title;
         this.contents = contents;
         this.author = author;
+        this.apointment = apointment;
+        this.apointment_time = apointment_time;
         this.createDate = LocalDateTime.now();
     }
 }

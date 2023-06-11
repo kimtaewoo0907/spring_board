@@ -36,8 +36,8 @@ dependencies {
 
 	// spring의 session storage로 redis를 사용하기 위한 의존성 추가
 	// 기존의 sesison storage는 메모리에서 저장되고 있었으나, nosql DB에 추가하는 것으로 변경
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.session:spring-session-data-redis'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//	implementation 'org.springframework.session:spring-session-data-redis'
 }
 
 tasks.named('test') {

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional
 public class AuthorService implements UserDetailsService {
 
     @Autowired
